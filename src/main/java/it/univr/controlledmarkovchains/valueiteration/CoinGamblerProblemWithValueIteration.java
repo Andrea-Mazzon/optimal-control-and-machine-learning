@@ -29,15 +29,27 @@ public class CoinGamblerProblemWithValueIteration extends ValueIteration {
 	 */
 	public CoinGamblerProblemWithValueIteration(double discountFactor, double requiredPrecision, double headProbability, int amountOfMoneyToReach) {
 		super(IntStream.range(0, amountOfMoneyToReach+1).asDoubleStream().toArray(), //the vector (0,1,2,...,amountOfMoneyToReach)
+				//example: [2,3,4,5] is done by IntStream.range(2,6)
+				//alternative: constructStates(amountOfMoneyToReach)
 				//the vector (0,0,0,...,0,1)
-				DoubleStream.concat(DoubleStream.generate(() -> 0).limit(amountOfMoneyToReach), DoubleStream.of(1)).toArray(), 
-				new int[] {0, amountOfMoneyToReach}, //the absorbing states
+				DoubleStream.concat(
+						DoubleStream.generate(() -> 0).limit(amountOfMoneyToReach),
+						DoubleStream.of(1))
+							.toArray(), 
+							new int[] {0, amountOfMoneyToReach}, //the absorbing states
 				discountFactor, 
 				requiredPrecision);
 		this.headProbability = headProbability;
 		this.amountOfMoneyToReach = amountOfMoneyToReach;
 	}
 
+	private static double[] constructStates(int amountOfMoneyToReach) {
+		double[] states = new double [amountOfMoneyToReach +1];
+		for (int i = 0; i < amountOfMoneyToReach +1;i++) {
+			states[i]=i;
+		}
+		return states;
+	}
 	
 	@Override
 	protected double[] computeActions(double state) {
@@ -55,12 +67,13 @@ public class CoinGamblerProblemWithValueIteration extends ValueIteration {
 	protected double[] computeExpectedReturnsForStateAndActions(double state, double[] actions) {
 				
 		double[] oldStateValues = getOldValueFunctions();
-
+		double discountFactor = getDiscountFactor();
 		double[] actionReturns = new double[actions.length];
         for (int actionIndex = 0; actionIndex < actions.length; actionIndex ++ ) {
         	//the expected value at the next step given the chosen action and the current state. There is no reward function
-        	actionReturns[actionIndex]= headProbability * oldStateValues[ (int) (state + actions[actionIndex])]
-        				 + (1 - headProbability) * oldStateValues[(int) (state - actions[actionIndex])];      	
+        	actionReturns[actionIndex]= discountFactor*(headProbability * 
+        			oldStateValues[ (int) (state + actions[actionIndex])]
+        				 + (1 - headProbability) * oldStateValues[(int) (state - actions[actionIndex])]);      	
         }
 		return actionReturns;
 	}	

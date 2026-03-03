@@ -95,14 +95,14 @@ public abstract class ValueIteration {
 	private void generateValueFunctionsAndOptimalActions() throws Exception {
 
 		//at the beginning, the value functions are just the rewards for every state. They will then get updated
-		valueFunctions = rewardsAtStates;
-		oldValueFunctions = rewardsAtStates;
+		valueFunctions = rewardsAtStates.clone();
+		oldValueFunctions = rewardsAtStates.clone();
 
 		//so we know it is bigger than requiredPrecision and that the loop starts
 		double differenceBetweenPastAndOldValueFunctions = Double.MAX_VALUE;
 		
 		while (differenceBetweenPastAndOldValueFunctions >= requiredPrecision) {
-
+			System.out.println(differenceBetweenPastAndOldValueFunctions);
 			//we update the value of the value function for every state which is not absorbing
 			for (int stateIndex = 0; stateIndex < numberOfStates; stateIndex ++) {
 
@@ -133,9 +133,10 @@ public abstract class ValueIteration {
 			 * requiredPrecision, the loop stops
 			 */
 			differenceBetweenPastAndOldValueFunctions = UsefulMethodsArrays.getMaxDifference(valueFunctions, oldValueFunctions);
-
+			System.out.println(differenceBetweenPastAndOldValueFunctions);
+			System.out.println();
 			//update of the old value functions.
-			oldValueFunctions = valueFunctions;
+			oldValueFunctions = valueFunctions.clone();
 		}
 		
 		//the loop is now terminated: we get the optimal actions
@@ -197,7 +198,7 @@ public abstract class ValueIteration {
 			//it gets called only once!
 			generateValueFunctionsAndOptimalActions();
 		}
-		return valueFunctions.clone();
+		return valueFunctions;
 	}
 	
 	/**
