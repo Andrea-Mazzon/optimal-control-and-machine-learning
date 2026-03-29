@@ -133,15 +133,13 @@ public abstract class ValueIteration {
 			 * requiredPrecision, the loop stops
 			 */
 			differenceBetweenPastAndOldValueFunctions = UsefulMethodsArrays.getMaxDifference(valueFunctions, oldValueFunctions);
-			System.out.println(differenceBetweenPastAndOldValueFunctions);
-			System.out.println();
+
 			//update of the old value functions.
 			oldValueFunctions = valueFunctions.clone();
 		}
 		
 		//the loop is now terminated: we get the optimal actions
 		optimalActions = computeOptimalActions();
-
 	}
 
 	

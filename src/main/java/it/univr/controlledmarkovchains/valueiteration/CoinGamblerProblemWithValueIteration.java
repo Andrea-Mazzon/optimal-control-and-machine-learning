@@ -51,6 +51,15 @@ public class CoinGamblerProblemWithValueIteration extends ValueIteration {
 		return states;
 	}
 	
+	
+	private static double[] getStates(int amountOfMoneyToReach) {
+		double[] states = new double[amountOfMoneyToReach];
+		for (int i = 0; i < amountOfMoneyToReach; i++ ) {
+			states[i]=i;
+		}
+		return states;
+	}
+	
 	@Override
 	protected double[] computeActions(double state) {
 		/*
