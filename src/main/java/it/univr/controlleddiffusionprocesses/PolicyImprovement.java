@@ -90,13 +90,18 @@ public class PolicyImprovement {
 	 * 		   of the value function is smaller than this
 	 * @param maxNumberIterations, the iterations also stop if we reach the maximum number of iterations
 	 */
-	public PolicyImprovement(TriFunction<Double, Double, Double, Double> driftFunctionWithControl,
+	public PolicyImprovement(
+			TriFunction<Double, Double, Double, Double> driftFunctionWithControl,
 			TriFunction<Double, Double, Double, Double> diffusionFunctionWithControl,
 			TriFunction<Double, Double, Double, Double> runningRewardFunction, 
-			DoubleUnaryOperator finalRewardFunction, DoubleBinaryOperator conditionAtLeftBoundary,
-			double leftEndControlInterval, double rightEndControlInterval, double controlStep,
-			double leftEndSpaceInterval, double rightEndSpaceInterval, double spaceStep,
-			double finalTime, double timeStep, double requiredPrecision, int maxNumberIterations) {
+			DoubleUnaryOperator finalRewardFunction,
+			DoubleBinaryOperator conditionAtLeftBoundary,
+			double leftEndControlInterval, double rightEndControlInterval,
+			double controlStep,
+			double leftEndSpaceInterval, double rightEndSpaceInterval,
+			double spaceStep,
+			double finalTime, double timeStep,
+			double requiredPrecision, int maxNumberIterations) {
 		
 		this.driftFunctionWithControl = driftFunctionWithControl;
 		this.diffusionFunctionWithControl = diffusionFunctionWithControl;
@@ -121,7 +126,9 @@ public class PolicyImprovement {
 		numberOfControls = (int) ((rightEndControlInterval - leftEndControlInterval)/controlStep) + 1;
 		
 		//all the possible controls. For every time and space, we will choose the maximizing one.
-		controls = IntStream.range(0, numberOfControls).mapToDouble(i -> leftEndControlInterval + i * controlStep).toArray();
+		controls = IntStream.range(0, numberOfControls)
+				.mapToDouble(i -> leftEndControlInterval + i * controlStep)
+				.toArray();
 		
 		this.requiredPrecision = requiredPrecision;
 		this.maxNumberIterations = maxNumberIterations;
@@ -134,17 +141,23 @@ public class PolicyImprovement {
 	 */
 	private void computeSolutionAndOptimalControl() throws Exception {
 
-		updatedOptimalControl = new double[numberOfTimeSteps][numberOfSpaceSteps + 1];
+		updatedOptimalControl =
+				new double[numberOfTimeSteps][numberOfSpaceSteps + 1];
 		
 		//the first matrix of optimal controls has same values for all rows and columns
 		for (int rowIndex = 0; rowIndex < numberOfTimeSteps; rowIndex ++) {
 			//these values are the middle point of the control interval
-			Arrays.fill(updatedOptimalControl[rowIndex], (rightEndControlInterval-leftEndControlInterval)/2);
+			Arrays.fill(updatedOptimalControl[rowIndex],
+					(rightEndControlInterval-leftEndControlInterval)/2);
 		}
 		
 		//we construct the object to solve the first PDE, for the first control
-		CrankNicholsonPDESolver solver = new CrankNicholsonPDESolver(spaceStep,  timeStep,  leftEndSpaceInterval,  rightEndSpaceInterval,  finalTime,
-				driftFunctionWithControl, diffusionFunctionWithControl, runningRewardFunction, finalRewardFunction, conditionAtLeftBoundary, 
+		CrankNicholsonPDESolver solver =
+				new CrankNicholsonPDESolver(spaceStep,  timeStep, 
+				leftEndSpaceInterval,  rightEndSpaceInterval,  finalTime,
+				driftFunctionWithControl, diffusionFunctionWithControl,
+				runningRewardFunction, finalRewardFunction,
+				conditionAtLeftBoundary, 
 				updatedOptimalControl);
 
 		//we update the value function..

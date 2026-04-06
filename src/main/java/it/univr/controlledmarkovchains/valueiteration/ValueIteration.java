@@ -21,7 +21,6 @@ import it.univr.usefulmethodsarrays.UsefulMethodsArrays;
  */
 public abstract class ValueIteration {
 	
-	//This class has an error!! We will try to catch it together
 	
 	//TO BE GIVEN IN THE CONSTRUCTOR 
 	
