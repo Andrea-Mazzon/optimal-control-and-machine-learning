@@ -27,7 +27,7 @@ public class CoinGamblerProblemWithTemporalDifferenceLearningTest {
 
 		int numberOfEpisodes = 10000;	
 		double learningRate = 0.3;
-		double explorationProbability = 0.1;//usually, one needs to choose a small exploration probability
+		double explorationProbability = 0.3;//usually, one needs to choose a small exploration probability
 
 		TemporalDifferenceLearning problemSolver = new CoinGamblerProblemWithSarsaInheritance(headProbability, discountFactor, moneyToWin, numberOfEpisodes, learningRate, explorationProbability);
 		//TemporalDifferenceLearning problemSolver = new CoinGamblerProblemWithQLearningInheritance(headProbability, discountFactor, moneyToWin, numberOfEpisodes, learningRate, explorationProbability);

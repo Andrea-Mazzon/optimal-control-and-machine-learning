@@ -76,7 +76,7 @@ public abstract class TemporalDifferenceLearning {
 	/*
 	 * This is a private method which is used to fill the currentQValue matrix, which represents the Q-value for every state and action.
 	 * The value function and the index of the best action for the i-th state are then computed as max_{j}currentQValue[i,j] and
-	 * argmax_{j}currentQValue[i,j], respectively. This method is the chore of the class.
+	 * argmax_{j}currentQValue[i,j], respectively.
 	 */
 	private void generateOptimalValueAndPolicy() {
 

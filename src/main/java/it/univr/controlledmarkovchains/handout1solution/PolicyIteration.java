@@ -125,11 +125,11 @@ public abstract class PolicyIteration {
 		 * of the linear system as described in the script. The computation depends on the specific
 		 * problem, so the methods are abstract. 
 		 */
-		double[] knownTerm = computeConstantTerm(optimalActions);
+		double[] constantTerm = computeConstantTerm(optimalActions);
 		double[][] systemMatrix = computeSystemMatrix(optimalActions);
 		
 		//the solution of the linear system is computed here..
-		double[] solutionLinearSystem = UsefulMethodsArrays.solveLinearSystem(systemMatrix, knownTerm);
+		double[] solutionLinearSystem = UsefulMethodsArrays.solveLinearSystem(systemMatrix, constantTerm);
 
 		//..and assigned to the non-absorbing states here
 		for (int solutionVectorIndex = 0; solutionVectorIndex< solutionLinearSystem.length; solutionVectorIndex++) {
@@ -137,11 +137,12 @@ public abstract class PolicyIteration {
 					= solutionLinearSystem[solutionVectorIndex];
 		}
 		
-		//you can check that they are computed depending on the value of valueFunctions
-		optimalActions = computeOptimalActions();
 		
 		//we have to know it in the while loop for checking the difference
 		oldValueFunctions = valueFunctions.clone();
+		
+		//you can check that they are computed depending on the value of valueFunctions
+		optimalActions = computeOptimalActions();
 		
 		//so we know it is bigger than requiredPrecision and that the loop starts
 		double differenceBetweenPastAndOldValueFunctions = Double.MAX_VALUE;
@@ -153,11 +154,11 @@ public abstract class PolicyIteration {
 			 * system as described in the script. The computation depends on the specific problem, so the methods
 			 * are abstract. 
 			 */
-			knownTerm = computeConstantTerm(optimalActions);
+			constantTerm = computeConstantTerm(optimalActions);
 			systemMatrix = computeSystemMatrix(optimalActions);	
 			
 			//the solution of the linear system is computed here..
-			solutionLinearSystem = UsefulMethodsArrays.solveLinearSystem(systemMatrix, knownTerm);
+			solutionLinearSystem = UsefulMethodsArrays.solveLinearSystem(systemMatrix, constantTerm);
 
 			//..and assigned to the non-absorbing states here
 			for (int solutionVectorIndex = 0; solutionVectorIndex< solutionLinearSystem.length; solutionVectorIndex++) {

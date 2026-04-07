@@ -71,6 +71,7 @@ public class CoinGamblerProblemWithPolicyIteration extends PolicyIteration {
 	 */
 	@Override
 	protected double[][] computeSystemMatrix(double[] actions) {
+		
 		//amountOfMoneyToReach -1 is the number of non-absorbing states
 		double[][] systemMatrix = new double[amountOfMoneyToReach -1][amountOfMoneyToReach -1];
 		
